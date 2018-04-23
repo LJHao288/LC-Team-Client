@@ -21,6 +21,7 @@ public class Chat : MonoBehaviour {
 
     public GameObject message;
     string a1 = "";
+
     // Use this for initialization
     void Start ()
     {
@@ -66,6 +67,7 @@ public class Chat : MonoBehaviour {
         str = str + "\\Assets\\history.txt";
         return str;
     }
+
     public void connectedToServer()
     {
         if (socketReady) {
