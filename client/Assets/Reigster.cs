@@ -43,7 +43,7 @@ public class Reigster : MonoBehaviour
             SceneManager.LoadScene("Login");
         }
     }
-}
+
 
 public void click1()
 {
