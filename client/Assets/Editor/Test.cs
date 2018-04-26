@@ -32,7 +32,7 @@ public class Test {
     [Test]
     public void register()
     {
-        Assert.AreEqual(true, Reigster.inputData(0, "nihao", "123"));
+        Assert.AreEqual(true, Reigster.input(0, "nihao", "123"));
         // Use the Assert class to test conditions.
 
 

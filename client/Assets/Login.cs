@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class Login : MonoBehaviour {
     public static List<string> datalist = new List<string>();
     public Button login;
-    public Button gotuRegister;
+    public Button gotoRegister;
     // Use this for initialization
 	void Start () {
         
         Reigster.readData(datalist);
         login.onClick.AddListener(click1);
-        gotuRegister.onClick.AddListener(click2);
+        gotoRegister.onClick.AddListener(click2);
 
     }
 	

@@ -13,6 +13,7 @@ public class Reigster : MonoBehaviour {
     public static List<string> datalist = new List<string>();
     public Button Register;
     public Button Cancel;
+    
     // Use this for initialization
     void Start() {
         readData(datalist);
@@ -36,7 +37,7 @@ public class Reigster : MonoBehaviour {
 
         }
         else
-        {
+        {   
             inputData(userID(),getname(),getPW());
             //跳回loging
             SceneManager.LoadScene("Login");
@@ -62,20 +63,26 @@ public class Reigster : MonoBehaviour {
         return password = PW.text;
     }
     
-    public static bool inputData(int id, string name, string PW)
+    public static void inputData(int id, string name, string PW)
     {
-        try
-        {
-            
+        
+            string a = id.ToString() + "," + name + "," + PW;
             FileStream fs = new FileStream(Path(), FileMode.Append);
             StreamWriter sw = new StreamWriter(fs);
             //开始写入
-            sw.WriteLine(id.ToString() + "," + name + "," + PW);
+            sw.WriteLine(a);
             //清空缓冲区
             sw.Flush();
             //关闭流
             sw.Close();
             fs.Close();
+                   
+    }
+    public static bool input(int id, string name, string PW)
+    {
+        try
+        {
+            inputData(id, name, PW);
             return true;
         }
         catch
@@ -83,7 +90,7 @@ public class Reigster : MonoBehaviour {
             return false;
         }
 
-        
+
     }
     public static void  readData(List<string> datalist)
     { 
@@ -91,7 +98,8 @@ public class Reigster : MonoBehaviour {
         String line;
         
         while ((line = sr.ReadLine()) != null)
-        {   string[] a = line.Split(',');
+        {
+            string[] a = line.Split(',');
             
             datalist.Add(a[0]);
             datalist.Add(a[1]);
@@ -102,9 +110,11 @@ public class Reigster : MonoBehaviour {
 
     public static String Path()
     {
-        string str = System.Environment.CurrentDirectory; ;
-        str = str + "\\Assets\\Data.txt";
-        return str;
+        //string str = System.Environment.CurrentDirectory; ;
+       // str = str + "\\Assets\\Data.txt";
+        string DPath = Application.dataPath;
+        string url = DPath + "/StreamingAssets/Data.txt";
+        return url;
     }
     public int userID()
     {

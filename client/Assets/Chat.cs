@@ -21,7 +21,7 @@ public class Chat : MonoBehaviour {
 
     public GameObject message;
     string a1 = "";
-
+    
     // Use this for initialization
     void Start ()
     {
@@ -63,9 +63,12 @@ public class Chat : MonoBehaviour {
     }
     public static String Path1()
     {
-        string str = System.Environment.CurrentDirectory; ;
-        str = str + "\\Assets\\history.txt";
-        return str;
+        //string str = System.Environment.CurrentDirectory; ;
+        //str = str + "\\Assets\\history.txt";
+        string DPath = Application.dataPath;
+        string url = DPath + "/StreamingAssets/history.txt";
+        return url;
+       
     }
 
     public void connectedToServer()
@@ -119,7 +122,16 @@ public class Chat : MonoBehaviour {
     }
     public void history()
     {
-        //
+        StreamReader sr = new StreamReader(Path1());
+        String line;
+        String l1 = "";
+        while ((line = sr.ReadLine()) != null)
+        {
+            Debug.Log(line.ToString());
+            l1 += line.ToString() + "\r\n";
+        }
+        Text hs = GameObject.Find("messages1").GetComponent<Text>();
+        hs.text =l1;
     }
     public void picture()
     {
