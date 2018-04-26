@@ -12,58 +12,85 @@ public class Reigster : MonoBehaviour {
     public static String password = "";
     public static List<string> datalist = new List<string>();
     public Button Register;
+    public Button Cancel;
+    
     // Use this for initialization
-    void Start () {
+    void Start() {
         readData(datalist);
-       Register.onClick.AddListener(click);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        Register.onClick.AddListener(click);
+        Cancel.onClick.AddListener(click1);
+    }
 
-	}
+    // Update is called once per frame
+    void Update() {
+
+    }
 
     public void click()
-    {      
-        if (exist())
+    {
+        if (exist(getname(),datalist))
         {
             InputField username = GameObject.Find("username").GetComponent<InputField>();
-            username.text= "the name already existed or null";
+            username.text = "the name already existed or null";
             InputField PW = GameObject.Find("password").GetComponent<InputField>();
             PW.text = "";
-            
+
         }
         else
-        {
-            inputData();
+        {   
+            inputData(userID(),getname(),getPW());
             //跳回loging
             SceneManager.LoadScene("Login");
-                
-            
+
+
         }
-          
+
     }
+    public void click1()
+    {
+        SceneManager.LoadScene("Login");
+    }
+
     public static string getname()
     {
         InputField username = GameObject.Find("username").GetComponent<InputField>();
-        return  name1 = username.text;
+        return name1 = username.text;
     }
+
     public static string getPW()
     {
         InputField PW = GameObject.Find("password").GetComponent<InputField>();
-        return  password = PW.text;
+        return password = PW.text;
     }
-    public void inputData()
-    {   int Id = userID();
-        FileStream fs = new FileStream(Path(), FileMode.Append);
-        StreamWriter sw = new StreamWriter(fs);
-        //开始写入
-        sw.WriteLine(Id.ToString()+","+getname()+","+getPW());
-        //清空缓冲区
-        sw.Flush();
-        //关闭流
-        sw.Close();
-        fs.Close();
+    
+    public static void inputData(int id, string name, string PW)
+    {
+        
+            string a = id.ToString() + "," + name + "," + PW;
+            FileStream fs = new FileStream(Path(), FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);
+            //开始写入
+            sw.WriteLine(a);
+            //清空缓冲区
+            sw.Flush();
+            //关闭流
+            sw.Close();
+            fs.Close();
+                   
+    }
+    public static bool input(int id, string name, string PW)
+    {
+        try
+        {
+            inputData(id, name, PW);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+
+
     }
     public static void  readData(List<string> datalist)
     { 
@@ -71,7 +98,8 @@ public class Reigster : MonoBehaviour {
         String line;
         
         while ((line = sr.ReadLine()) != null)
-        {   string[] a = line.Split(',');
+        {
+            string[] a = line.Split(',');
             
             datalist.Add(a[0]);
             datalist.Add(a[1]);
@@ -82,9 +110,11 @@ public class Reigster : MonoBehaviour {
 
     public static String Path()
     {
-        string str = System.Environment.CurrentDirectory; ;
-        str = str + "\\Assets\\Data.txt";
-        return str;
+        //string str = System.Environment.CurrentDirectory; ;
+       // str = str + "\\Assets\\Data.txt";
+        string DPath = Application.dataPath;
+        string url = DPath + "/StreamingAssets/Data.txt";
+        return url;
     }
     public int userID()
     {
@@ -94,12 +124,12 @@ public class Reigster : MonoBehaviour {
         return strings.Length;
         
     }
-    public static bool exist()
+    public static bool exist(string name,List<string> datalist)
     { bool existed = false;
         for (int i = 1; i < datalist.Count(); i += 3)
         {
 
-            if (getname().Equals(datalist[i]) || getname().Equals("the name already existed or null")|| getname().Equals(""))
+            if (name.Equals(datalist[i]) || name.Equals("the name already existed or null")|| name.Equals(""))
             {
                 existed = true;
                 break;

@@ -6,15 +6,15 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Login : MonoBehaviour {
-    List<string> datalist = new List<string>();
+    public static List<string> datalist = new List<string>();
     public Button login;
-    public Button gotuRegister;
+    public Button gotoRegister;
     // Use this for initialization
 	void Start () {
         
         Reigster.readData(datalist);
         login.onClick.AddListener(click1);
-        gotuRegister.onClick.AddListener(click2);
+        gotoRegister.onClick.AddListener(click2);
 
     }
 	
@@ -23,23 +23,31 @@ public class Login : MonoBehaviour {
 		
 	}
     public void click1() {
-        if (exist() && check())
+        if (exist(Reigster.getname()))
         {
-            SceneManager.LoadScene("Chat");
-        }
+            if (check(Reigster.getname(), Reigster.getPW(),datalist))
+            {
+                SceneManager.LoadScene("Chat");
+            }
+            else
+            {
+                InputField username = GameObject.Find("username").GetComponent<InputField>();
+                username.text = "password wrong.";
+            }           
+        }                                         
     }
     public void click2()
     {
         //跳转到注册
         SceneManager.LoadScene("Reigster");
     }
-    public bool exist()
+    public static bool exist(string name)
     {
         bool existed = false;
         for (int i = 1; i < datalist.Count(); i += 3)
         {
 
-            if (Reigster.getname().Equals(datalist[i]))
+            if (name.Equals(datalist[i]))
             {
                 
                 existed = true;
@@ -52,24 +60,20 @@ public class Login : MonoBehaviour {
         }
         return existed;
     }
-    public bool check()
+    public static bool check(string name,string password,List<string> datalist)
     {
         bool pw = false;
         for (int i = 1; i < datalist.Count(); i += 3)
         {
 
-            if (Reigster.getname().Equals(datalist[i]) && Reigster.getPW().Equals(datalist[i+1]))
+            if (name.Equals(datalist[i]) && password.Equals(datalist[i+1]))
             {
                 pw = true;
                 break;
             }
 
         }
-        if (!pw)
-        {
-            InputField username = GameObject.Find("username").GetComponent<InputField>();
-            username.text = "password wrong.";
-        }
+        
         return pw;
     }
 }

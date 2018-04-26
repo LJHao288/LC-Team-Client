@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Chat : MonoBehaviour {
     public Button Send;
     public Button Game1;
-    public Button Game2;
+    public Button Rename;
     public Button History;
     public Button Picture;
 
@@ -20,13 +20,15 @@ public class Chat : MonoBehaviour {
     private StreamReader reader;
 
     public GameObject message;
-
+    string a1 = "";
+    public string clientName = "user";
+    string a = "";
     // Use this for initialization
     void Start ()
     {
 		Send.onClick.AddListener(send);
         Game1.onClick.AddListener(game1);
-        Game2.onClick.AddListener(game2);
+        Rename.onClick.AddListener(rename);
         History.onClick.AddListener(history);
         Picture.onClick.AddListener(picture);
 
@@ -45,8 +47,30 @@ public class Chat : MonoBehaviour {
 
     public void OnIncomingData(string data) {
         Debug.Log(data);
-        Text m = GameObject.Find("message").GetComponent<Text>();
-        m.text = data;
+
+        a1 += data + "\r\n";
+        Text m = GameObject.Find("messages1").GetComponent<Text>();
+        m.text = a1;
+        
+        //write data to text
+        FileStream fs = new FileStream(Path1(), FileMode.Append);
+        StreamWriter sw = new StreamWriter(fs);
+        //开始写入
+        sw.WriteLine(data);
+        //清空缓冲区
+        sw.Flush();
+        //关闭流
+        sw.Close();
+        fs.Close();
+    }
+    public static String Path1()
+    {
+        //string str = System.Environment.CurrentDirectory; ;
+        //str = str + "\\Assets\\history.txt";
+        string DPath = Application.dataPath;
+        string url = DPath + "/StreamingAssets/history.txt";
+        return url;
+       
     }
 
     public void connectedToServer()
@@ -86,19 +110,36 @@ public class Chat : MonoBehaviour {
     public void send() {
         string m = GameObject.Find("input").GetComponent<InputField>().text;
         sendm(m);
+        InputField input = GameObject.Find("input").GetComponent<InputField>();
+        input.text = "";
     }
 
     public void game1()
     {
         connectedToServer();
     }
-    public void game2()
+    public void rename()
     {
-        //
+        Debug.Log("change");
+        InputField m = GameObject.Find("rename").GetComponent<InputField>();
+        //clientName = "chen";
+        clientName = m.text;
+        Debug.Log(clientName);
+        sendm("&Name|" + clientName);
+        m.text = "";
     }
     public void history()
     {
-        //
+        StreamReader sr = new StreamReader(Path1());
+        String line;
+        String l1 = "";
+        while ((line = sr.ReadLine()) != null)
+        {
+            Debug.Log(line.ToString());
+            l1 += line.ToString() + "\r\n";
+        }
+        Text hs = GameObject.Find("messages1").GetComponent<Text>();
+        hs.text =l1;
     }
     public void picture()
     {

@@ -1,0 +1,19 @@
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user:   $Name|chen
+New user has connected !
+New userrename to :chen
+New user has connected !
+ 'New user ' rename to :chen
+New user has connected !
+New user has connected !
+ 'New user ' rename to :chen
+New user has connected !
+ 'New user ' rename to :123
+123:   &Name|123
+123:   dasf
