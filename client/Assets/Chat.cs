@@ -19,7 +19,7 @@ public class Chat : MonoBehaviour
     private StreamReader reader;
 
     public GameObject message;
-    string a1 = "";
+    private string a1 = "";
 
     // Use this for initialization
     private void Start()
@@ -51,7 +51,7 @@ public class Chat : MonoBehaviour
         a1 += data + "\r\n";
         Text m = GameObject.Find("messages1").GetComponent<Text>();
         m.text = a1;
-        
+
         //write data to text
         FileStream fs = new FileStream(Path1(), FileMode.Append);
         StreamWriter sw = new StreamWriter(fs);
@@ -63,6 +63,7 @@ public class Chat : MonoBehaviour
         sw.Close();
         fs.Close();
     }
+
     public static String Path1()
     {
         string str = System.Environment.CurrentDirectory; ;
@@ -108,7 +109,7 @@ public class Chat : MonoBehaviour
     public void send()
     {
         string m = GameObject.Find("input").GetComponent<InputField>().text;
-        sendm(m);        
+        sendm(m);
         InputField input = GameObject.Find("input").GetComponent<InputField>();
         input.text = "";
     }
