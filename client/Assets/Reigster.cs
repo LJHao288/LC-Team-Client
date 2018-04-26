@@ -39,6 +39,7 @@ public class Reigster : MonoBehaviour
         else
         {
             inputData(userID(), getname(), getPW());
+
             //跳回loging
             SceneManager.LoadScene("Login");
         }
@@ -61,49 +62,62 @@ public static string getPW()
     InputField PW = GameObject.Find("password").GetComponent<InputField>();
     return password = PW.text;
 }
-
-public static bool inputData(int id, string name, string PW)
-{
-    try
+    
+    public static void inputData(int id, string name, string PW)
     {
-        FileStream fs = new FileStream(Path(), FileMode.Append);
-        StreamWriter sw = new StreamWriter(fs);
-        //开始写入
-        sw.WriteLine(id.ToString() + "," + name + "," + PW);
-        //清空缓冲区
-        sw.Flush();
-        //关闭流
-        sw.Close();
-        fs.Close();
-        return true;
+        
+            string a = id.ToString() + "," + name + "," + PW;
+            FileStream fs = new FileStream(Path(), FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);
+            //开始写入
+            sw.WriteLine(a);
+            //清空缓冲区
+            sw.Flush();
+            //关闭流
+            sw.Close();
+            fs.Close();
+                   
     }
-    catch
+    public static bool input(int id, string name, string PW)
     {
-        return false;
+        try
+        {
+            inputData(id, name, PW);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+
+
     }
-}
+    public static void  readData(List<string> datalist)
+    { 
+        StreamReader sr = new StreamReader(Path(), System.Text.Encoding.Default);
+        String line;
+        
+        while ((line = sr.ReadLine()) != null)
+        {
+            string[] a = line.Split(',');
+            
+            datalist.Add(a[0]);
+            datalist.Add(a[1]);
+            datalist.Add(a[2]);
 
-public static void readData(List<string> datalist)
-{
-    StreamReader sr = new StreamReader(Path(), System.Text.Encoding.Default);
-    String line;
+        }
+    }
 
-    while ((line = sr.ReadLine()) != null)
+
+    public static String Path()
     {
-        string[] a = line.Split(',');
-
-        datalist.Add(a[0]);
-        datalist.Add(a[1]);
-        datalist.Add(a[2]);
+        //string str = System.Environment.CurrentDirectory; ;
+       // str = str + "\\Assets\\Data.txt";
+        string DPath = Application.dataPath;
+        string url = DPath + "/StreamingAssets/Data.txt";
+        return url;
     }
-}
-
-public static String Path()
-{
-    string str = System.Environment.CurrentDirectory; ;
-    str = str + "\\Assets\\Data.txt";
-    return str;
-}
+    
 
 public int userID()
 {

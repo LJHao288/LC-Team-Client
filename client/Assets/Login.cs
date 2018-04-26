@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +10,6 @@ public class Login : MonoBehaviour
     public static List<string> datalist = new List<string>();
     public Button login;
     public Button gotuRegister;
-
     // Use this for initialization
     private void Start()
     {
@@ -17,6 +17,7 @@ public class Login : MonoBehaviour
         login.onClick.AddListener(click1);
         gotuRegister.onClick.AddListener(click2);
     }
+
 
     // Update is called once per frame
     private void Update()
