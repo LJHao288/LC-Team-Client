@@ -6,7 +6,8 @@ using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Chat : MonoBehaviour {
+public class Chat : MonoBehaviour
+{
     public Button Send;
     public Button Game1;
     public Button Game2;
@@ -23,33 +24,36 @@ public class Chat : MonoBehaviour {
     string a1 = "";
     
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
-		Send.onClick.AddListener(send);
+        Send.onClick.AddListener(send);
         Game1.onClick.AddListener(game1);
         Game2.onClick.AddListener(game2);
         History.onClick.AddListener(history);
         Picture.onClick.AddListener(picture);
-
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (socketReady) {
-            if (stream.DataAvailable) {
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (socketReady)
+        {
+            if (stream.DataAvailable)
+            {
                 string data = reader.ReadLine();
                 if (data != null)
                     OnIncomingData(data);
             }
         }
-	}
+    }
 
-    public void OnIncomingData(string data) {
+    public void OnIncomingData(string data)
+    {
         Debug.Log(data);
         a1 += data + "\r\n";
         Text m = GameObject.Find("messages1").GetComponent<Text>();
         m.text = a1;
-        
+
         //write data to text
         FileStream fs = new FileStream(Path1(), FileMode.Append);
         StreamWriter sw = new StreamWriter(fs);
@@ -61,6 +65,7 @@ public class Chat : MonoBehaviour {
         sw.Close();
         fs.Close();
     }
+
     public static String Path1()
     {
         //string str = System.Environment.CurrentDirectory; ;
@@ -73,31 +78,32 @@ public class Chat : MonoBehaviour {
 
     public void connectedToServer()
     {
-        if (socketReady) {
+        if (socketReady)
+        {
             return;
         }
 
         string host = "127.0.0.1";
         int port = 4321;
 
-        try {
-            socket = new TcpClient(host,port);
+        try
+        {
+            socket = new TcpClient(host, port);
             stream = socket.GetStream();
             writer = new StreamWriter(stream);
             reader = new StreamReader(stream);
             socketReady = true;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log("Socket error: " + e.Message);
-
         }
-
     }
 
     public void sendm(string data)
     {
-        if (!socketReady) {
+        if (!socketReady)
+        {
             return;
         }
 
@@ -105,9 +111,10 @@ public class Chat : MonoBehaviour {
         writer.Flush();
     }
 
-    public void send() {
+    public void send()
+    {
         string m = GameObject.Find("input").GetComponent<InputField>().text;
-        sendm(m);        
+        sendm(m);
         InputField input = GameObject.Find("input").GetComponent<InputField>();
         input.text = "";
     }
@@ -116,10 +123,12 @@ public class Chat : MonoBehaviour {
     {
         connectedToServer();
     }
+
     public void game2()
     {
         //
     }
+
     public void history()
     {
         StreamReader sr = new StreamReader(Path1());
@@ -133,6 +142,7 @@ public class Chat : MonoBehaviour {
         Text hs = GameObject.Find("messages1").GetComponent<Text>();
         hs.text =l1;
     }
+
     public void picture()
     {
         //
