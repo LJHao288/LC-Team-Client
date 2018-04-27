@@ -1,0 +1,37 @@
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user has connected !
+New user:   $Name|chen
+New user has connected !
+New userrename to :chen
+New user has connected !
+ 'New user ' rename to :chen
+New user has connected !
+New user has connected !
+ 'New user ' rename to :chen
+New user has connected !
+ 'New user ' rename to :123
+123:   &Name|123
+123:   dasf
+new user has connected !
+new user:   
+new user has connected !
+ 'new user ' rename to :chen
+chen:   &Name|chen
+chen:   打法
+new user has connected !
+ 'new user ' rename to :陈
+new user has connected !
+ 'new user ' rename to :的
+的:   是啥
+new user has connected !
+ 'new user ' rename to :sb
+sb:   ad
+sb:   assddd
+new user has connected !
+ 'new user ' rename to :sb
+sb:   asdfasdf

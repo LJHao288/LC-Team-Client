@@ -1,67 +1,67 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using System;
 using System.IO;
 using System.Linq;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class Reigster : MonoBehaviour
-{
+public class Reigster : MonoBehaviour {
     public static String name1 = "";
     public static String password = "";
     public static List<string> datalist = new List<string>();
     public Button Register;
     public Button Cancel;
-
+    
     // Use this for initialization
-    private void Start()
-    {
+    void Start() {
         readData(datalist);
         Register.onClick.AddListener(click);
         Cancel.onClick.AddListener(click1);
     }
 
     // Update is called once per frame
-    private void Update()
-    {
+    void Update() {
+
     }
 
     public void click()
     {
-        if (exist(getname(), datalist))
+        if (exist(getname(),datalist))
         {
             InputField username = GameObject.Find("username").GetComponent<InputField>();
             username.text = "the name already existed or null";
             InputField PW = GameObject.Find("password").GetComponent<InputField>();
             PW.text = "";
+
         }
         else
-        {
-            inputData(userID(), getname(), getPW());
-
+        {   
+            inputData(userID(),getname(),getPW());
             //跳回loging
             SceneManager.LoadScene("Login");
+
+
         }
+
+    }
+    public void click1()
+    {
+        SceneManager.LoadScene("Login");
     }
 
+    public static string getname()
+    {
+        InputField username = GameObject.Find("username").GetComponent<InputField>();
+        return name1 = username.text;
+    }
 
-public void click1()
-{
-    SceneManager.LoadScene("Login");
-}
-
-public static string getname()
-{
-    InputField username = GameObject.Find("username").GetComponent<InputField>();
-    return name1 = username.text;
-}
-
-public static string getPW()
-{
-    InputField PW = GameObject.Find("password").GetComponent<InputField>();
-    return password = PW.text;
-}
+    public static string getPW()
+    {
+        InputField PW = GameObject.Find("password").GetComponent<InputField>();
+        return password = PW.text;
+    }
     
     public static void inputData(int id, string name, string PW)
     {
@@ -108,7 +108,6 @@ public static string getPW()
         }
     }
 
-
     public static String Path()
     {
         //string str = System.Environment.CurrentDirectory; ;
@@ -117,27 +116,26 @@ public static string getPW()
         string url = DPath + "/StreamingAssets/Data.txt";
         return url;
     }
-    
-
-public int userID()
-{
-    FileStream F = new FileStream(Path(), FileMode.OpenOrCreate, FileAccess.Read);
-    string[] strings = File.ReadAllLines(Path());
-    F.Close();
-    return strings.Length;
-}
-
-public static bool exist(string name, List<string> datalist)
-{
-    bool existed = false;
-    for (int i = 1; i < datalist.Count(); i += 3)
+    public int userID()
     {
-        if (name.Equals(datalist[i]) || name.Equals("the name already existed or null") || name.Equals(""))
-        {
-            existed = true;
-            break;
-        }
+        FileStream F = new FileStream(Path(),FileMode.OpenOrCreate, FileAccess.Read);
+        string[] strings = File.ReadAllLines(Path());
+        F.Close();
+        return strings.Length;
+        
     }
-    return existed;
-}
+    public static bool exist(string name,List<string> datalist)
+    { bool existed = false;
+        for (int i = 1; i < datalist.Count(); i += 3)
+        {
+
+            if (name.Equals(datalist[i]) || name.Equals("the name already existed or null")|| name.Equals(""))
+            {
+                existed = true;
+                break;
+            }
+
+        }
+        return existed;
+    }
 }
