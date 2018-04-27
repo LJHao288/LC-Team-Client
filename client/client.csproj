@@ -287,6 +287,7 @@
     <Compile Include="Assets\Reigster.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Data.txt" />
     <None Include="Assets\StreamingAssets\Data.txt" />
     <None Include="Assets\StreamingAssets\history.txt" />
   </ItemGroup>
